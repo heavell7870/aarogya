@@ -161,8 +161,11 @@ authApp.post("/login_admin", async (req, res) => {
     return res.json({ status: "failed", msg: "Invalid Username or password" });
   }
 
-  if (user.type != "admin") {
-    return res.json({ status: "failed", msg: "Only admin can access" });
+  if (user.type == "user") {
+    return res.json({
+      status: "failed",
+      msg: "Only admin and moderator can access",
+    });
   }
 
   if (await bcrypt.compare(plainTextPassword, user.password)) {
