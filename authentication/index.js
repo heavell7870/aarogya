@@ -245,7 +245,12 @@ authApp.post("/refresh", (req, res) => {
       username: user.username,
       type: user.type,
     });
-    return res.json({ status: "ok", msg: "Token Generated", access_token });
+    return res.json({
+      status: "ok",
+      msg: "Token Generated",
+      access_token,
+      type: user.type,
+    });
   });
 });
 
