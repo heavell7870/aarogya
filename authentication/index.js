@@ -12,7 +12,8 @@ const authApp = express.Router();
 
 authApp.use(express.json());
 
-authApp.post("/register", async (req, res) => {
+authApp.post("/register", authenticateToken, async (req, res) => {
+  const id = req.user.id;
   const {
     username,
     password: plainTextPassword,
@@ -70,6 +71,7 @@ authApp.post("/register", async (req, res) => {
       updated: new Date(),
       is_verified: false,
       cards_created: 0,
+      added_by: id,
       type,
     });
     // await Otp.create({
