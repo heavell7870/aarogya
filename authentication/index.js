@@ -171,12 +171,16 @@ authApp.post("/login_admin", async (req, res) => {
     const access_token = generateAccessToken({
       id: user.id,
       username: user.username,
+      type: user.type,
     });
     const refresh_token = jwt.sign(
-      { id: user.id, username: user.username },
+      { id: user.id, username: user.username, type: user.type },
       process.env.REFRESH_TOKEN_SECRET
     );
-    return res.json({ status: "ok", data: { access_token, refresh_token } });
+    return res.json({
+      status: "ok",
+      data: { access_token, refresh_token, type: user.type },
+    });
   }
 
   return res.json({ status: "failed", msg: "Invalid Username or password" });
@@ -236,6 +240,7 @@ authApp.post("/refresh", (req, res) => {
     const access_token = generateAccessToken({
       id: user.id,
       username: user.username,
+      type: user.type,
     });
     return res.json({ status: "ok", msg: "Token Generated", access_token });
   });
